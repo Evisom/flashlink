@@ -1,8 +1,14 @@
+import GlobalStyle from './components/GlobalStyle'
+import Header from './components/Header'
+
+
 const NotFound = () => {
     return (
-        <h1>
+        <div>
+            <GlobalStyle/>
+            <Header/>
             404
-        </h1>
+        </div>
     );
 }
 

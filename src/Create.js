@@ -1,6 +1,14 @@
+import GlobalStyle from './components/GlobalStyle'
+import Header from './components/Header'
+
+
 const Create = () => {
     return (
-        <h1>Create</h1>
+        <div>
+            <GlobalStyle/>
+            <Header/>
+            Create
+        </div>
     );
 }
 

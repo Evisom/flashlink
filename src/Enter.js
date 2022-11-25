@@ -1,8 +1,13 @@
+import GlobalStyle from './components/GlobalStyle'
+import Header from './components/Header'
+
 const Enter = () => {
     return (
-        <h1>
-            enter
-        </h1>
+        <div>
+            <GlobalStyle/>
+            <Header/>
+            Enter
+        </div>
     );
 }
 

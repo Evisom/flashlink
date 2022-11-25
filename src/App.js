@@ -1,32 +1,43 @@
-import requests from './services/request'
-
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Link,
 } from 'react-router-dom';
+import styled, { createGlobalStyle } from 'styled-components'
 
 import About from './About'
 import Create from './Create'
 import Enter from './Enter'
 import NotFound from './NotFound'
 
+import Header from './components/Header'
+
+import requests from './services/request'
+
+const Wrapper = createGlobalStyle`
+  * {
+      box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    padding: 0;
+  }
+`
+
+
 const App = () => {
   requests.request()
   return (
-    <Router>
-      <Link to='/'>Root</Link>
-      <Link to='/Create'>Create</Link>
-      <Link to='/About'>About</Link>
-      <Link to='/*'>*</Link>
-      <Routes>
-        <Route path='/' element={<Enter/>}/> 
-        <Route path='/Create' element={<Create />}/> 
-        <Route path='/About' element={<About />}/> 
-        <Route path='*' element={<NotFound />}/> 
-      </Routes>
-    </Router>
+      <Router>
+        <Routes>
+          <Route path='/' element={<Enter/>}/> 
+          <Route path='/Create' element={<Create />}/> 
+          <Route path='/About' element={<About />}/> 
+          <Route path='*' element={<NotFound />}/> 
+        </Routes>
+      </Router>
+    
   );
 }
 

@@ -1,6 +1,13 @@
+import GlobalStyle from './components/GlobalStyle'
+import Header from './components/Header'
+
 const About = () => {
     return (
-        <h1>about</h1>
+        <div>
+            <GlobalStyle/>
+            <Header/>
+            About
+        </div>
     );
 }
 
