@@ -3,6 +3,8 @@ import Header from './components/Header'
 
 import styled, {createGlobalStyle} from 'styled-components'
 import React from 'react'
+import {Redirect} from 'react-router-dom'
+import request from './services/request'
 
 const Container = styled.div`
     width: 100%;
@@ -30,26 +32,41 @@ class Enter extends React.Component {
         this.handleBackspace = this.handleBackspace.bind(this)
     }
 
-    getElement(event, step, callback) {
+    getElement(event, step, callback, err) {
         let id = event.target.id.split('-')[0] + '-' + (Number(event.target.id.split('-')[1]) + step)
         let element = document.getElementById(id)
         if (element) {
             callback(element)
+        } else {
+            err()
         }
     }
 
     handleChange(event) {
         if (event.target.value != "") {
             this.code+=event.target.value
-            this.getElement(event, 1, (element) => {element.focus()})
+            this.getElement(event, 1, (element) => {element.focus()}, () => {this.sendCode()})
         }
     }
     handleBackspace(event) {
         if (event.key === 'Backspace') {
             this.code = this.code.substring(0, this.code.length-1)
             event.target.value = ""
-            this.getElement(event, -1, (element) => {element.focus()})
+            this.getElement(event, -1, (element) => {element.focus()}, ()=>{})
         }
+    }
+    sendCode() {
+        console.log(this.code)
+        request({
+            url: ('/api/link?code='+this.code),
+            method:'GET', 
+            body: undefined
+        }, (response) => {
+            if (response.url) {
+                window.open(response.url, '_blank');
+                
+            }
+        })
     }
 
     render() {

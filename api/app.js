@@ -8,7 +8,7 @@ const config = {
 }
 
 const DB = {
-    0: {
+    "00000": {
         url: "https://example.com"
     }
 }
