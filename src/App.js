@@ -13,7 +13,7 @@ import NotFound from './NotFound'
 
 import Header from './components/Header'
 
-import requests from './services/request'
+import request from './services/request'
 
 const Wrapper = createGlobalStyle`
   * {
@@ -27,7 +27,15 @@ const Wrapper = createGlobalStyle`
 
 
 const App = () => {
-  requests.request()
+  request({
+    url: '/api/create',
+    method: 'POST',
+    body: {
+      url: "test"
+    }
+  }, (response) => {
+    console.log(response)
+  })
   return (
       <Router>
         <Routes>

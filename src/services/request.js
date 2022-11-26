@@ -1,17 +1,13 @@
-const func = () => {
-    return 'hello';
-}
-
-const request = async () => {
-    fetch('/api/create', {
-      method: "POST", 
+const request = async (params, callback) => {
+    fetch(params.url, {
+      method: params.method, 
       headers: {
-      'Content-Type': 'application/json'
+        'Content-Type': 'application/json'
       }, 
-      body: JSON.stringify({url: "text"})})  
-    .then((response) => {  
+      body: JSON.stringify(params.body)})  
+      .then((response) => {  
         response.json().then(function(data) {  
-            console.log(data);  
+            callback(data)
       });  
     }  
   ).catch(function(err) {  
@@ -19,5 +15,4 @@ const request = async () => {
   });
 }
 
-exports.default = func;
-exports.request = request 
+export default request
