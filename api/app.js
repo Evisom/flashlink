@@ -1,3 +1,5 @@
+import Link from './Link'
+
 const express = require('express')
 const app = express()
 app.use(express.json())
@@ -20,7 +22,7 @@ app.get('/api/', (request, response) => {
 
 app.get('/api/link', (request, response) => {
     console.log("[GET] /api/link");
-    code = request.query.code;
+    let code = request.query.code;
     if (code) {
         if (DB[code]) {
             response.json({url: DB[code].url});
@@ -35,15 +37,20 @@ app.get('/api/link', (request, response) => {
 
 app.post('/api/create', (request, response) => {
     console.log("[POST] /api/create");
-    console.log(request.body);
-    if (request.body.url) {
-        code = Number(Object.keys(DB)[Object.keys(DB).length - 1]) + 1
-        DB[code] = {url:request.body.url}
-        response.json({status:"OK"});
-    } else {
-        response.json({status:"error"});
+    // url 
+    // ip 
+    // date 
+    const keys = ['url']
+    for (let i = 0; i < keys.length; i++) {
+        if (!request.body[keys[i]]) {
+            response.json({
+                status: "error"
+            })
+        }
     }
-    
+    const ip = request.headers['x-forwarded-for'] || request.socket.remoteAddress
+    const link = new Link(request.body.url, ip)
+    console.log(link)
 });
 
 app.listen(config.port, () => {

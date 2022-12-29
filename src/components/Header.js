@@ -6,6 +6,7 @@ import {
     Route,
     Link,
   } from 'react-router-dom';
+import React from 'react';
 
 const HeaderContainer = styled.header`
     width: 100%;
@@ -17,15 +18,16 @@ const HeaderContainer = styled.header`
     justify-content: space-between;
 `
 
-const Header = (props) => {
-
-    return (
-        <HeaderContainer>
-            <Link to='/'>Enter</Link> 
-            <Link to='/Create'>Create</Link> 
-            <Link to='/About'>About</Link>
-        </HeaderContainer>
-    )
+class Header extends React.Component {
+    render() {
+        return (
+            <HeaderContainer>
+                <Link to='/'>Enter</Link> 
+                <Link to='/Create'>Create</Link> 
+                <Link to='/About'>About</Link>
+            </HeaderContainer>
+        )
+    }
 }
 
 export default Header;

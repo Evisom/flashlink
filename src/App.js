@@ -3,6 +3,7 @@ import {
   Routes,
   Route,
   Link,
+  renderMatches,
 } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components'
 
@@ -14,6 +15,7 @@ import NotFound from './NotFound'
 import Header from './components/Header'
 
 import request from './services/request'
+import React from 'react';
 
 const Wrapper = createGlobalStyle`
   * {
@@ -26,27 +28,21 @@ const Wrapper = createGlobalStyle`
 `
 
 
-const App = () => {
-  request({
-    url: '/api/create',
-    method: 'POST',
-    body: {
-      url: "test"
-    }
-  }, (response) => {
-    console.log(response)
-  })
-  return (
-      <Router>
-        <Routes>
-          <Route path='/' element={<Enter/>}/> 
-          <Route path='/Create' element={<Create />}/> 
-          <Route path='/About' element={<About />}/> 
-          <Route path='*' element={<NotFound />}/> 
-        </Routes>
-      </Router>
-    
-  );
+class App extends React.Component {
+
+  render() {  
+    return (
+        <Router>
+          <Routes>
+            <Route path='/' element={<Enter/>}/> 
+            <Route path='/Create' element={<Create />}/> 
+            <Route path='/About' element={<About />}/> 
+            <Route path='*' element={<NotFound />}/> 
+          </Routes>
+        </Router>
+      
+    );
+  }
 }
 
 export default App;

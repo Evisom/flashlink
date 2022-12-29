@@ -1,9 +1,8 @@
 import GlobalStyle from './components/GlobalStyle'
 import Header from './components/Header'
 
-import styled, {createGlobalStyle} from 'styled-components'
+import styled from 'styled-components'
 import React from 'react'
-import {Redirect} from 'react-router-dom'
 import request from './services/request'
 
 const Container = styled.div`
@@ -29,6 +28,7 @@ const HiddenInput = styled.input`
     width: 0;
     height: 0;
 `
+
 class Enter extends React.Component {
     constructor(props) {
         super(props)
