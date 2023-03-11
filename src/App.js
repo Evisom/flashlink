@@ -10,6 +10,7 @@ import styled, { createGlobalStyle } from 'styled-components'
 import About from './About'
 import Create from './Create'
 import Enter from './Enter'
+import Redirect from './Redirect'
 import NotFound from './NotFound'
 
 import Header from './components/Header'
@@ -37,6 +38,7 @@ class App extends React.Component {
             <Route path='/' element={<Enter/>}/> 
             <Route path='/Create' element={<Create />}/> 
             <Route path='/About' element={<About />}/> 
+            <Route path='/Redirect' element={<Redirect />}/> 
             <Route path='*' element={<NotFound />}/> 
           </Routes>
         </Router>

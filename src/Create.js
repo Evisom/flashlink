@@ -41,6 +41,7 @@ class Create extends React.Component {
             body: {url: event.target[0].value}
         }, (response) => {
             console.log(response)
+            
             this.setState({data: response})
         }) 
     }

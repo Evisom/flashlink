@@ -2,7 +2,7 @@ import GlobalStyle from './components/GlobalStyle'
 import Header from './components/Header'
 
 import styled from 'styled-components'
-import React from 'react'
+import React, { useEffect } from 'react'
 import request from './services/request'
 
 const Container = styled.div`
@@ -70,10 +70,14 @@ class Enter extends React.Component {
             body: undefined
         }, (response) => {
             if (response.url) {
-                window.open(response.url, '_blank');
+                this.redirect(response.url)
                 
             }
         })
+    }
+    redirect(url) {
+
+        window.location.href = 'Redirect?=' + url.slice(1,-1)
     }
 
     render() {
