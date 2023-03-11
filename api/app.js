@@ -6,14 +6,23 @@ app.use(express.json())
 
 
 const config = {
-    port : 3001
+    port : 3001,
+    codeTime: 86400000
+    // codeTime: 10000
 }
 
+const errors = {
+    se: {
+        "status" : "server_error"
+    },
+    nf: {
+        "status" : "not_found"
+    },
+    ir: {
+        "status" : "invalid_request"
+    }
+}
 
-app.get('/api/', (request, response) => {
-    console.log("[GET] /api/");
-    response.json({text:"Hello flashlink API"});
-});
 
 app.get('/api/link', (request, response) => {
     console.log("[GET] /api/link");
@@ -21,22 +30,27 @@ app.get('/api/link', (request, response) => {
     let link = new Link(undefined, undefined, code)
     link.getUrl((result) => {
         if (result == false) {
-            response.json({
-                "status" : "server_error"
-            })
+            response.json(errors.se)
         } else if (result.length == 0) {
-            response.json({
-                "status" : "not_found"
-            })
+            response.json(errors.nf)
         } else if (result.length > 1) {
-            response.json({
-                "status" : "server_error"
-            })
+            response.json(errors.se)
         } else {
-            response.json({
-                "status" : "ok",
-                "url" : '"' +result[0].url + '"'
-            })
+            let now = Date.now()
+            if (now - result[0].date > config.codeTime) {
+                link.remove((res) => {
+                    if (res) {
+                        response.json(errors.nf)
+                    } else {
+                        response.json(errors.se)
+                    }
+                })
+            } else {
+                response.json({
+                    "status" : "ok",
+                    "url" : '"' +result[0].url + '"'
+                })
+            }
         }
     })
     
@@ -47,14 +61,17 @@ app.post('/api/create', (request, response) => {
     const keys = ['url']
     for (let i = 0; i < keys.length; i++) {
         if (!request.body[keys[i]]) {
-            response.json({
-                status: "error"
-            })
+            return response.json(errors.ir)
         }
+    }
+    try {
+        let url = new URL(request.body.url)
+        url = url.origin.replace('https://', 'http://')
+    } catch {
+        return response.json(errors.ir)
     }
     const ip = request.headers['x-forwarded-for'] || request.socket.remoteAddress
     const link = new Link(request.body.url, ip, undefined)
-    console.log(link)
     link.write((result) => {
         if (result.success) {
             response.json({

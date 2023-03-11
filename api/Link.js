@@ -39,6 +39,14 @@ class Link {
                 }
                 callback(result)
             } else {
+                this.getUrl((result) => {
+                    if (result.length != 0) {
+                        if (result[0].url != this.url ) {
+                            this.code = md5(Math.floor(this.date) .toString() + '+' + this.url).slice(-5)
+                        }
+                        
+                    }
+                })
                 let result = await collection.insertOne(this)
                 console.log(result)
                 result = {
@@ -62,6 +70,17 @@ class Link {
             })
         })
     }
+    remove(callback) {
+        this.database(async (collection) => {
+            collection.deleteMany({code: this.code}, (err, res) => {
+                if (err) {
+                    callback(false)
+                } else {
+                    callback(true)
+                }
+            })
+        })
+    }
 }
-// e6c4a
+
 export default Link
