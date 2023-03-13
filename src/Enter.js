@@ -5,6 +5,8 @@ import styled from 'styled-components'
 import React, { useEffect } from 'react'
 import request from './services/request'
 
+import Error from './components/Error'
+
 const Container = styled.div`
     width: 100%;
     height: 100%;
@@ -12,15 +14,28 @@ const Container = styled.div`
 
 const EnterWrapper = styled.div`
     width: 100%;
-    height: 100%;
+    height: 50vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 `
 
 const CodeInput = styled.input`
-    width: 32px;
-    height: 32px;
+    width: 48px;
+    height: 58px;
+    background: rgb(199,199,199);
+    border: none;
+    border-radius: 0;
+    color: black;
+    margin: 6px;
+    outline: none;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 800;
+    text-transform: uppercase;
+    caret-color: transparent;
+    font-family: 'JetBrains Mono', monospace;
 `
 
 const HiddenInput = styled.input`
@@ -36,6 +51,7 @@ class Enter extends React.Component {
         this.handleChange = this.handleChange.bind(this)
         this.handleBackspace = this.handleBackspace.bind(this)
         this.sendCode = this.sendCode.bind(this)
+        this.state = {error: ''};
     }
 
     getElement(event, step, callback) {
@@ -71,7 +87,9 @@ class Enter extends React.Component {
         }, (response) => {
             if (response.url) {
                 this.redirect(response.url)
-                
+            } else {
+                console.log(response)
+                this.setState({error: "Error! " + response.status})
             }
         })
     }
@@ -94,7 +112,9 @@ class Enter extends React.Component {
                         <CodeInput id="code-4" maxLength="1"/>
                         <HiddenInput onFocus={this.sendCode} id="code-5" maxLength="0"/>
                     </form>
+                    <Error>{this.state.error}</Error>    
                 </EnterWrapper>    
+                
             </Container>
         );
     }

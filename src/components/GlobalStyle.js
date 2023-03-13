@@ -10,7 +10,17 @@ const GlobalStyle = createGlobalStyle`
         margin: 0;
         padding: 0;
         width: 100%;
-        height: 100%;
+        /* height: 100%; */
+        background: #000;
+    }
+    .shortcut {
+        margin-right: 4px;
+        padding: 4px 2px;
+        background: rgb(199,199,199);
+        color: black;
+        @media (max-width: 768px) {
+            display: none;
+        }
     }
 `
 

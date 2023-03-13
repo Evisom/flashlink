@@ -29,7 +29,7 @@ app.get('/api/link', (request, response) => {
     let code = request.query.code;
     let link = new Link(undefined, undefined, code)
     link.getUrl((result) => {
-        if (result == false) {
+        if (result === false) {
             response.json(errors.se)
         } else if (result.length == 0) {
             response.json(errors.nf)

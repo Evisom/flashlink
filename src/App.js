@@ -17,6 +17,10 @@ import Header from './components/Header'
 
 import request from './services/request'
 import React from 'react';
+import R from './Redirect';
+
+import { useNavigate } from 'react-router-dom';
+
 
 const Wrapper = createGlobalStyle`
   * {
@@ -27,12 +31,28 @@ const Wrapper = createGlobalStyle`
     padding: 0;
   }
 `
-
-
+const F = () => {
+  const navigate = useNavigate();
+  const handleClick = () => navigate('/goodbye');
+}
 class App extends React.Component {
 
+  constructor(props) {
+    super(props)
+  }
+  onKeyDown(e) {
+    
+    if (e.keyCode === 69 && e.ctrlKey) { // CTRL + E
+      console.log("!")
+      window.location.href = '/'
+    } else if (e.keyCode === 67 && e.ctrlKey) { // CTRL + C
+      window.location.href = '/Create'
+    } else if (e.keyCode === 65 && e.ctrlKey) { // CTRL + A
+      window.location.href = '/About'
+    }
+  }
   render() {  
-    return (
+    return (<div onKeyDown={this.onKeyDown}>
         <Router>
           <Routes>
             <Route path='/' element={<Enter/>}/> 
@@ -42,7 +62,7 @@ class App extends React.Component {
             <Route path='*' element={<NotFound />}/> 
           </Routes>
         </Router>
-      
+        </div>
     );
   }
 }
