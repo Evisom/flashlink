@@ -81,7 +81,7 @@ class Enter extends React.Component {
     sendCode() {
         console.log(this.code)
         request({
-            url: ('/api/link?code='+this.code),
+            url: ('/api/link?code='+this.code.toLowerCase()),
             method:'GET', 
             body: undefined
         }, (response) => {

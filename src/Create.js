@@ -111,7 +111,7 @@ class Create extends React.Component {
                         </Button>                        
                         </div>
                     </form>
-                    <Warning>Codes are valid only for an hour!</Warning>
+                    <Warning>Codes are valid only for 1 day!</Warning>
 
                 </Wrapper>
             </div>

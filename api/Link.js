@@ -1,7 +1,7 @@
 const md5 = require('md5');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const fs = require('fs');
-const credentials = '/Users/dmitriy/Documents/projects/gh/flashlink/api/key.pem'
+const credentials = __dirname+'/key.pem'
 
 class Link {
     
@@ -9,7 +9,7 @@ class Link {
         this.url = url;
         this.date = Date.now();
         this.ip = ip;
-        this.code = code || md5(Math.floor(this.date / 86400 / 1000) .toString() + '+' + this.url).slice(-5)
+        this.code = code || md5(Math.floor(this.date) .toString() + '+' + this.url).slice(-5)
     }
     async database(callback) {
         
@@ -41,10 +41,12 @@ class Link {
             } else {
                 this.getUrl((result) => {
                     if (result.length != 0) {
-                        if (result[0].url != this.url ) {
-                            this.code = md5(Math.floor(this.date) .toString() + '+' + this.url).slice(-5)
+                        for (let i = 0; i < result.length; i++) {
+                            if (Date.now() - result[i].date > 86400000) {
+                                let l = Link(undefined, undefined, result[i].code)
+                                l.remove()
+                            }
                         }
-                        
                     }
                 })
                 let result = await collection.insertOne(this)

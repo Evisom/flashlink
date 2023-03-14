@@ -6,7 +6,7 @@ app.use(express.json())
 
 
 const config = {
-    port : 3001,
+    port : 7001,
     codeTime: 86400000
     // codeTime: 10000
 }
@@ -64,12 +64,7 @@ app.post('/api/create', (request, response) => {
             return response.json(errors.ir)
         }
     }
-    try {
-        let url = new URL(request.body.url)
-        url = url.origin.replace('https://', 'http://')
-    } catch {
-        return response.json(errors.ir)
-    }
+    let url = request.body.url.replace('https://', 'http://')
     const ip = request.headers['x-forwarded-for'] || request.socket.remoteAddress
     const link = new Link(request.body.url, ip, undefined)
     link.write((result) => {
